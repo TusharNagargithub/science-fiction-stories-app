@@ -1,0 +1,80 @@
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.logo-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #6b8cff, #b06bff);
+  font-weight: 800;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  a {
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: color 0.2s ease;
+
+    &:hover,
+    &.active {
+      color: #fff;
+    }
+  }
+
+  .has-dropdown .arrow {
+    font-size: 0.75rem;
+    margin-left: 0.15rem;
+  }
+}
+
+.sign-out-btn {
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0.55rem 1.4rem;
+  color: #fff;
+  background:
+    linear-gradient(#0b011d, #0b011d) padding-box,
+    linear-gradient(90deg, #4f9cff, #b06bff) border-box;
+  cursor: pointer;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .site-header {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  .main-nav {
+    order: 3;
+    width: 100%;
+  }
+}

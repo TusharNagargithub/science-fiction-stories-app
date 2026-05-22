@@ -1,0 +1,105 @@
+<div class="detail-page" *ngIf="!loading && !error && story as data">
+  <app-header></app-header>
+
+  <section class="title-section">
+    <h1>
+      <span class="title-prefix" *ngIf="titleParts.prefix">{{ titleParts.prefix }} </span>
+      <span class="title-highlight">{{ titleParts.highlight }}</span>
+    </h1>
+  </section>
+
+  <nav class="tab-nav" aria-label="Story sections">
+    <button
+      type="button"
+      *ngFor="let tab of tabs"
+      class="tab-btn"
+      [class.active]="activeTab === tab.key"
+      (click)="setTab(tab.key)"
+    >
+      <span class="tab-icon">{{ tab.icon }}</span>
+      {{ tab.label }}
+    </button>
+  </nav>
+
+  <section class="tab-panel" [ngSwitch]="activeTab">
+    <div *ngSwitchCase="'word-explorer'" class="word-explorer">
+      <p class="instruction">
+        Drag Pictures to the matching Words, light up correct pairs, shake for a retry.
+      </p>
+
+      <div class="word-explorer-layout" *ngIf="currentWord as word">
+        <article
+          class="word-card"
+          [class.matched]="isMatched(word)"
+          [class.shake]="shakeWordId === wordKey(word)"
+          cdkDropList
+          [cdkDropListData]="[word]"
+          (cdkDropListDropped)="onImageDrop($event, word)"
+        >
+          <h2>{{ word.noun || word.word }} <span>(Noun)</span></h2>
+          <p class="meaning">{{ word.meaning }}</p>
+          <p class="description">{{ word.description }}</p>
+          <img [src]="imageUrl(word.image)" [alt]="word.word" />
+          <p class="synonyms">Synonyms: {{ word.synonyms.join(', ') || '—' }}</p>
+          <p class="antonyms">Antonyms: {{ word.antonyms.join(', ') || '—' }}</p>
+        </article>
+
+        <div class="image-grid">
+          <div
+            class="image-tile"
+            *ngFor="let item of data.wordExplore; trackBy: trackByIndex"
+            cdkDrag
+            [cdkDragData]="item"
+            [class.matched]="isMatched(item)"
+          >
+            <img [src]="imageUrl(item.image)" [alt]="item.word" />
+            <p>{{ item.word }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="word-nav" *ngIf="data.wordExplore.length > 1">
+        <button type="button" class="nav-circle" (click)="previousWord()" aria-label="Previous word">←</button>
+        <button type="button" class="nav-circle" (click)="nextWord()" aria-label="Next word">→</button>
+      </div>
+    </div>
+
+    <div *ngSwitchCase="'story-adventure'" class="story-adventure">
+      <h2 *ngIf="data.storyAdventure.title">{{ data.storyAdventure.title }}</h2>
+
+      <article class="adventure-section" *ngFor="let section of data.storyAdventure.content">
+        <p *ngFor="let paragraph of section.paragraphs">{{ paragraph }}</p>
+        <div class="adventure-images" *ngIf="section.images.length">
+          <img
+            *ngFor="let img of section.images"
+            [src]="imageUrl(img)"
+            alt="Story illustration"
+            loading="lazy"
+          />
+        </div>
+      </article>
+    </div>
+
+    <div *ngSwitchCase="'brain-quest'" class="brain-quest">
+      <article class="quiz-card" *ngFor="let question of data.brainQuest">
+        <h3>{{ question.question }}</h3>
+        <div class="options">
+          <button
+            type="button"
+            class="option-btn"
+            *ngFor="let option of question.options"
+            [class.selected]="isQuizSelected(question, option)"
+            [class.correct]="quizState(question, option) === 'correct'"
+            [class.incorrect]="quizState(question, option) === 'incorrect'"
+            (click)="selectQuizAnswer(question, option)"
+          >
+            {{ option }}
+          </button>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+
+<p *ngIf="loading" class="state-message">Loading story...</p>
+<p *ngIf="!loading && error" class="state-message error">{{ error }}</p>

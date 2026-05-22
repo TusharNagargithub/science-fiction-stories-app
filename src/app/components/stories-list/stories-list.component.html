@@ -1,0 +1,55 @@
+<div class="listing-page">
+  <section class="hero">
+    <app-header></app-header>
+    <h1 class="hero-title">Science Fiction Stories</h1>
+
+    <div class="filter-bar" role="toolbar" aria-label="Story filters">
+      <button
+        type="button"
+        *ngFor="let filter of filters"
+        class="filter-btn"
+        [ngClass]="[filter.className, activeFilter === filter.key ? 'active' : '']"
+        (click)="setFilter(filter.key)"
+      >
+        {{ filter.label }}
+      </button>
+    </div>
+  </section>
+
+  <section class="content">
+    <p *ngIf="loading" class="state-message">Loading stories...</p>
+    <p *ngIf="!loading && error" class="state-message error">{{ error }}</p>
+
+    <div class="story-grid" *ngIf="!loading && !error">
+      <article
+        class="story-card"
+        *ngFor="let story of paginatedStories"
+        (click)="openStory(story)"
+      >
+        <img
+          [src]="imageUrl(story.image[0])"
+          [alt]="story.title"
+          loading="lazy"
+        />
+        <h2>{{ story.title }}</h2>
+        <span class="status-badge" [ngClass]="statusClass(story.status)">
+          {{ story.status }}
+        </span>
+      </article>
+    </div>
+
+    <p *ngIf="!loading && !error && filteredStories.length === 0" class="state-message">
+      No stories found for this filter.
+    </p>
+
+    <div class="pagination" *ngIf="!loading && !error && filteredStories.length > 0">
+      <button type="button" class="page-link" [disabled]="!canGoPrevious" (click)="previousPage()">
+        ← Previous
+      </button>
+      <span class="page-indicator">Page {{ currentPage }} of {{ totalPages }}</span>
+      <button type="button" class="page-link" [disabled]="!canGoNext" (click)="nextPage()">
+        Next →
+      </button>
+    </div>
+  </section>
+</div>
