@@ -1,27 +1,94 @@
-# MxpertzAngularTest
+# BrainyLingo – Science Fiction Stories
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.8.
+Angular assignment app. Browse stories, open details, and use 3 tabs: **Word Explorer**, **Story Adventure**, **Brain Quest**.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Requirements
 
-## Code scaffolding
+- [Node.js](https://nodejs.org/) (v18 or v20)
+- Internet (for API & images)
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Check:
 
-## Build
+```bash
+node -v
+npm -v
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+---
 
-## Running unit tests
+## Run the project
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```bash
+# 1. Go to project folder
+cd mxpertz-angular-test
 
-## Running end-to-end tests
+# 2. Install packages (first time only)
+npm install
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# 3. Start app
+npm start
+```
 
-## Further help
+Open browser: **http://localhost:4200**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Stop app: press `Ctrl + C` in terminal.
+
+> First load may take 10–20 seconds (API is slow). Wait for stories to appear.
+
+---
+
+## How to test
+
+1. Home page → story cards with images  
+2. Click filters: New, In Progress, Completed, Clear All  
+3. Click any card → story detail page  
+4. Open all 3 tabs  
+5. Click **BrainyLingo** logo → back to home  
+
+---
+
+## API
+
+- List: `https://mxpertztestapi.onrender.com/api/sciencefiction`
+- Detail: `https://mxpertztestapi.onrender.com/api/sciencefiction/{id}`
+- Images: `https://ik.imagekit.io/dev24/{filename}`
+
+---
+
+## Routes
+
+| URL | Page |
+|-----|------|
+| `/` | Stories list |
+| `/story/:id` | Story details |
+
+---
+
+## Build (optional)
+
+```bash
+npm run build
+```
+
+---
+
+## Problems?
+
+| Issue | Fix |
+|-------|-----|
+| No stories | Wait & refresh page |
+| Port busy | `npm start -- --port 4300` |
+| Install error | Delete `node_modules`, run `npm install` again |
+
+---
+
+## Tech
+
+Angular 18 · TypeScript · RxJS · Router · SCSS
+
+---
+
+**Author:** Your Name  
+**GitHub:** https://github.com/YOUR_USERNAME/YOUR_REPO_NAME  
